@@ -47,7 +47,7 @@ mean = pktCount.mean()
 std = pktCount.std()
 threshold = mean + nbStd*std
 
-
+# report anomalous IP addresses 
 for host, val in pktPerHost.iteritems():
   if val > threshold:
      print(host+":* *:*;"+str(binStart)+";"+str(binEnd)+"\t1")   
