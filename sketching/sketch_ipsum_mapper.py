@@ -3,17 +3,11 @@
 import sys
 import string
 import random
-#import hashlib
 import zlib
-
-
-#def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-    #return ''.join(random.choice(chars) for x in range(size))
 
 if len(sys.argv) < 3:
    print "usage: "+sys.argv[0]+" nb_hash_fct size_hash_output"
    exit();
-
 
 number_hash_function=int(sys.argv[1]) # should be less than 512
 number_sketch=int(sys.argv[2])
@@ -38,22 +32,11 @@ for line in sys.stdin:
     # Sketch once using IP src and once using IP dst
     for pass_number, field_index in enumerate([0,2]):  
         ip = fields[field_index]
-        #ip_dst = fields[3]
-        #nb_bytes = fields[5]
 
         for hash_index in range_number_hash_function:
-                #m = hashlib.md5()
-                #m.update(hash_seed[hash_index])
-                #m.update(ip)
-                #hex_hash_value = m.hexdigest()
-                #hash_value = int(hex_hash_value[0:8],16) #int(hex_hash_value, 32)
-
                 hash_value = zlib.crc32(ip,hash_seed[hash_index])
                 sketch_index = hash_value%number_sketch
                 assert sketch_index <= number_sketch
 
                 key = str(hash_index+number_hash_function*pass_number)+","+str(sketch_index)+","+ts
                 sys.stdout.write(key+"\t"+pkt)
-        
-    
-
