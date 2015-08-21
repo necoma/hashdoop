@@ -1,31 +1,43 @@
 import time
 import os
 import sys
+import ConfigParser
+import json
 
-#if len(sys.argv)<2:
-#  print "usage: "+sys.argv[0]+" traceName"
-#  exit()
+config = ConfigParser.ConfigParser()
+config.read("../hashdoop.conf")
 
-year = range(2001,2014,3)
-month = range(1,4)
-day = [15]
+# Traces to sketch
+years = json.loads(config.get("Traces","years")) 
+months = json.loads(config.get("Traces","months")) 
+days = json.loads(config.get("Traces","days"))  
+
+# Parameters for the Hadoop cluster
+hadoopBlockSize = config.get("Hadoop", "blockSize")
+streamingLib = config.get("Hadoop", "streamingLib")
+tracesHdfsPath = config.get("Hadoop", "tracesHdfsPath")
+sketchesHdfsPath = config.get("Hadoop", "sketchesHdfsPath")
+
+# Parameters for hashing
+nbHash = config.get("Hashing", "nbHash")
+hashSize = config.get("Hashing", "hashSize")
 
 
 nbHashFct = [1]
 outputSize = [2,4,8,16,32,64,128,256,512,1024];
 
 
-cmdExp = """hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.4.0.jar \
+cmdExp = """hadoop jar {streamingLib} \
  -D mapred.reduce.tasks=1 \
--file /home/romain/Projets/NECOMA/hadoop_simpleDetector/mapper_pkt.py    -mapper /home/romain/Projets/NECOMA/hadoop_simpleDetector/mapper_pkt.py \
--file /home/romain/Projets/NECOMA/hadoop_astute/reducer.py -file /home/romain/Projets/NECOMA/hadoop_astute/admd.py   -reducer "/home/romain/Projets/NECOMA/hadoop_astute/reducer.py {outputDir}" \
--input /user/romain/{inputFiles} -output /user/romain/simpleDetector/{outputDir}"""
+-file mapper_pkt.py    -mapper /home/romain/Projets/NECOMA/hadoop_simpleDetector/mapper_pkt.py \
+-file reducer.py -file /home/romain/Projets/NECOMA/hadoop_astute/admd.py   -reducer "/home/romain/Projets/NECOMA/hadoop_astute/reducer.py {outputDir}" \
+-input /user/romain/{inputFiles} -output /user/romain/simpleDetector/{outputDir}""".format(streamingLib = streamingLib)
 
 timeCount = []
 
-for ye in year:
-   for mo in month:
-     for da in day:
+for ye in years:
+   for mo in months:
+     for da in days:
        traceName = "{0}{1:02d}{2:02d}1400.ipsum".format(ye,mo,da)
        inputDir = "hashedTraffic/"+traceName+"_block4G/" 
 

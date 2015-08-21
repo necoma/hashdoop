@@ -28,7 +28,7 @@ for ye in years:
         for da in days:
 
             traceName = "{0}{1:02d}{2:02d}1400.ipsum".format(ye,mo,da)
-            outputDir = "hashedTraffic/"+traceName+"/" 
+            outputDir = traceName+"/" 
 
             cmdExp = """hadoop jar {streamingLib} \
         -D map.output.key.field.separator=, \
