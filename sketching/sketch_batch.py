@@ -15,17 +15,20 @@ days = json.loads(config.get("Traces","days"))
 # Parameters for the Hadoop cluster
 hadoopBlockSize = config.get("Hadoop", "blockSize")
 streamingLib = config.get("Hadoop", "streamingLib")
+tracesHdfsPath = config.get("Hadoop", "tracesHdfsPath")
+sketchesHdfsPath = config.get("Hadoop", "sketchesHdfsPath")
 
 # Parameters for hashing
 nbHash = config.get("Hashing", "nbHash")
 hashSize = config.get("Hashing", "hashSize")
 
+# Go through all traces
 for ye in years:
     for mo in months:
         for da in days:
 
             traceName = "{0}{1:02d}{2:02d}1400.ipsum".format(ye,mo,da)
-            outputDir = "hashedTraffic/"+traceName+"_block4G/" 
+            outputDir = "hashedTraffic/"+traceName+"/" 
 
             cmdExp = """hadoop jar {streamingLib} \
         -D map.output.key.field.separator=, \
@@ -34,12 +37,12 @@ for ye in years:
         -D dfs.blocksize={hadoopBlockSize} \
         -libjars customMultiOutput.jar \
         -outputformat com.custom.CustomMultiOutputFormat \
-        -file /home/romain/Projets/NECOMA/hadoop_sketching3/sketch_ipsum_mapper.py  \
-        -mapper "/home/romain/Projets/NECOMA/hadoop_sketching3/sketch_ipsum_mapper.py {nbHash} {hashSize}" \
-        -file /home/romain/Projets/NECOMA/hadoop_sketching3/sketch_ipsum_reducer.py \
-        -reducer /home/romain/Projets/NECOMA/hadoop_sketching3/sketch_ipsum_reducer.py \
-        -input /user/romain/data/{traceName} \
-        -output /user/romain/{outputPath} \
+        -file ./sketch_ipsum_mapper.py  \
+        -mapper "./sketch_ipsum_mapper.py {nbHash} {hashSize}" \
+        -file ./sketch_ipsum_reducer.py \
+        -reducer ./sketch_ipsum_reducer.py \
+        -input {tracesHdfsPath}{traceName} \
+        -output {sketchesHdfsPath}{outputPath} \
         -partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner"""
 
             outputPath=outputDir+str(nbHash)+"hash_"+str(hashSize)+"sketch"
@@ -48,8 +51,9 @@ for ye in years:
             #set parameters in the command line
             cmd = cmdExp.format(traceName=traceName, outputPath=outputPath, 
                     nbHash=nbHash, hashSize=hashSize, nbReducer=nbReducer, 
-                    hadoopBlockSize=hadoopBlockSize, streamingLib=streamingLib);      
+                    hadoopBlockSize=hadoopBlockSize, streamingLib=streamingLib,
+                    sketchesHdfsPath=sketchesHdfsPath, tracesHdfsPath=tracesHdfsPath);      
 
             start = time.time()
             os.system(cmd)
-            print time.time() - start
+            print "Hashed %s in %s sec." % (traceName, time.time() - start)
