@@ -30,25 +30,25 @@ cmdExp = """hadoop jar {streamingLib} \
  -D mapred.reduce.tasks=1 \
 -file ./mapper_pkt.py    -mapper "./mapper_pkt.py {threshold}" \
 -file ./reducer.py -file ./admd.py   -reducer "./reducer.py {outputHdfsPath}{outputDir} {threshold}" \
--input {sketchesHdfsPath}{inputFiles} -output {outputHdfsPath}{outputDir}""".format(streamingLib = streamingLib)
+-input {sketchesHdfsPath}{inputFiles} -output {outputHdfsPath}{outputDir}"""
 
 timeCount = []
 
 for ye in years:
     for mo in months:
         for da in days:
-        traceName = "{0}{1:02d}{2:02d}1400.ipsum".format(ye,mo,da)
-        inputDir = traceName+"/" 
+            traceName = "{0}{1:02d}{2:02d}1400.ipsum".format(ye,mo,da)
+            inputDir = traceName+"/" 
 
-        inputFiles = inputDir+str(nbHash)+"hash_"+str(hashSize)+"sketch/hash*"
-        outputDir = inputDir+str(nbHash)+"hash_"+str(hashSize)+"sketch_pkt/"
-        cmd = cmdExp.format(inputFiles=inputFiles, outputDir=outputDir,
-                sketchesHdfsPath=sketchesHdfsPath, outputHdfsPath=outputHdfsPath,
-                binSize=binSize)
-        
-        start = time.time()         
-        os.system(cmd)
-        timeCount.append(time.time() - start)
+            inputFiles = inputDir+str(nbHash)+"hash_"+str(hashSize)+"sketch/hash*"
+            outputDir = inputDir+str(nbHash)+"hash_"+str(hashSize)+"sketch_pkt/"
+            cmd = cmdExp.format(inputFiles=inputFiles, outputDir=outputDir,
+                    sketchesHdfsPath=sketchesHdfsPath, outputHdfsPath=outputHdfsPath,
+                    threshold=threshold,streamingLib = streamingLib)
+            
+            start = time.time()         
+            os.system(cmd)
+            timeCount.append(time.time() - start)
 
 print "#Year"
 print years
