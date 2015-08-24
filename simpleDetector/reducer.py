@@ -8,13 +8,13 @@ import admd
 
 __version__ = 0.2
 
-def newAnnotation(threshold, binSize,trace):
+def newAnnotation(threshold, trace):
   root = admd.annotation_t()
   
   algo = admd.algorithm_t()
-  algo.set_name("Astute (MapReduce)")
+  algo.set_name("Simple MapReduce Detector (packet based)")
   algo.set_version(__version__)
-  algo.set_parameter("K(p)={0}, binSize={1}".format(threshold,binSize))
+  algo.set_parameter("tau={0}".format(threshold))
   root.set_algorithm(algo)
   
   analy = admd.analysis_t()
@@ -65,8 +65,8 @@ def newAnomaly(flow, ts, te, count):
 
   return ano
 
-if len(sys.argv)<2:
-   sys.stderr.write("usage: "+sys.argv[0]+" traceName\n")
+if len(sys.argv)<3:
+   sys.stderr.write("usage: "+sys.argv[0]+" traceName threshold\n")
    exit()
 
 current_flow = None
@@ -75,7 +75,7 @@ current_ts = 0
 current_te = 0
 flow = None
 
-root = newAnnotation(3.0,30,sys.argv[1])
+root = newAnnotation(sys.argv[2],sys.argv[1])
 
 # input comes from STDIN
 for line in sys.stdin:

@@ -3,7 +3,7 @@
 import sys
 import numpy as np
 
-nbStd = 3; # report hosts that have 3 std more pkts
+nbStd = float(sys.argv[1]); # Detection threshold
 
 pktPerHost = dict()
 
