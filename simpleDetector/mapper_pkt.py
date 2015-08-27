@@ -1,9 +1,9 @@
 #!/usr/bin/env python2
 
 import sys
-#import numpy as np
+import numpy as np
 
-nbStd = 3 #float(sys.argv[1]); # Detection threshold
+nbStd = float(sys.argv[1]); # Detection threshold
 
 pktPerHost = dict()
 
@@ -42,11 +42,11 @@ for line in sys.stdin:
       
   
 # compute the threshold based on the mean and standard deviation
-#pktCount = np.array(pktPerHost.values())
-#mean = pktCount.mean()
-#std = pktCount.std()
-mean = float(sum(pktPerHost.values())
-std = mean/3.0
+pktCount = np.array(pktPerHost.values())
+mean = pktCount.mean()
+std = pktCount.std()
+#mean = float(sum(pktPerHost.values())
+#std = mean/3.0
 threshold = mean + nbStd*std
 
 # report anomalous IP addresses 
