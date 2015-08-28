@@ -1,4 +1,4 @@
-# Hashdoop
+# Hashdoop: A MapReduce framework for network anomaly detection
 ### Prerequisites:
 - Hadoop cluster with Hadoop Streaming installed
 - Numpy installed on all hadoop nodes
@@ -17,7 +17,7 @@ The analysis of traffic traces with Hashdoop consists of four main steps:
 ## Data formatting
  
 ### Generate text files from a pcap trace
-Assuming the pcap trace (200704121400.dump.gz)[http://mawi.nezu.wide.ad.jp/mawi/samplepoint-F/2007/200704121400.dump.gz]
+Assuming the pcap trace [200704121400.dump.gz](http://mawi.nezu.wide.ad.jp/mawi/samplepoint-F/2007/200704121400.dump.gz)
 is in the ~/mawi/ directory. Convert the pcap file to a text file using the
 following command:
 ```
