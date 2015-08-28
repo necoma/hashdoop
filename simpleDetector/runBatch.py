@@ -28,7 +28,7 @@ outputHdfsPath = config.get("SimpleDetector", "outputHdfsPath")
 
 cmdExp = """hadoop jar {streamingLib} \
  -D mapred.reduce.tasks=1 \
--files ./*.py    -mapper "mapper_pkt.py {threshold}" \
+-files "./*.py"    -mapper "mapper_pkt.py {threshold}" \
 -reducer "reducer.py {outputHdfsPath}{outputDir} {threshold}" \
 -input {sketchesHdfsPath}{inputFiles} -output {outputHdfsPath}{outputDir}"""
 
