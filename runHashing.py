@@ -31,7 +31,7 @@ for ye in years:
             outputDir = traceName+"/" 
 
             cmdExp = """hadoop jar {streamingLib} \
-        -files hashing
+        -files hashing \
         -D map.output.key.field.separator=, \
         -D mapred.text.key.partitioner.options=-k1,2 \
         -D mapred.reduce.tasks={nbReducer} \
