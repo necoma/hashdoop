@@ -5,13 +5,14 @@
 - [Ipsumdump](http://www.read.seas.harvard.edu/~kohler/ipsumdump/)
 
 Note: to avoid the burden of installing Hadoop, you can also try hashdoop with
-the [Matatabi docker image](https://hub.docker.com/r/necoma/matatabi/)
+the [Matatabi docker image](https://hub.docker.com/r/necoma/matatabi/).
 
 ### Basic steps:
-1 Format traffic trace to textual format
-2 Configure Hashdoop
-3 Hash the trace
-4 Detect anomalies
+
+1.  Format traffic trace to textual format
+2.  Configure Hashdoop
+3.  Hash the trace
+4.  Detect anomalies
 
 ## Data formatting
  
