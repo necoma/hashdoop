@@ -30,7 +30,7 @@ outputHdfsPath = config.get("Astute", "outputHdfsPath")
 cmdExp = """hadoop jar {streamingLib} \
 -files astute \
 -D mapred.reduce.tasks=1 \
--mapper "astute/mapper_pkt.py {threshold} {binSize}" \
+-mapper "astute/astute.py {threshold} {binSize}" \
 -reducer "astute/reducer.py {outputHdfsPath}{outputDir} {binSize} {threshold}" \
 -input {sketchesHdfsPath}{inputFiles} -output {outputHdfsPath}{outputDir} \
 """
