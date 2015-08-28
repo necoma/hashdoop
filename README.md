@@ -1,4 +1,5 @@
-# Hashdoop: A MapReduce framework for network anomaly detection
+# Hashdoop
+A MapReduce framework for network anomaly detection
 ### Prerequisites:
 - Hadoop cluster with Hadoop Streaming installed
 - Numpy installed on all hadoop nodes
