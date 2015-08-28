@@ -27,10 +27,10 @@ threshold = config.get("SimpleDetector","threshold")
 outputHdfsPath = config.get("SimpleDetector", "outputHdfsPath")
 
 cmdExp = """hadoop jar {streamingLib} \
--files ./mapper_pkt.py,./reducer.py,./admd.py \
+-files simpleDetector \
 -D mapred.reduce.tasks=1 \
--mapper "mapper_pkt.py {threshold}" \
--reducer "reducer.py {outputHdfsPath}{outputDir} {threshold}" \
+-mapper "simpleDetector/mapper_pkt.py {threshold}" \
+-reducer "simpleDetector/reducer.py {outputHdfsPath}{outputDir} {threshold}" \
 -input {sketchesHdfsPath}{inputFiles} -output {outputHdfsPath}{outputDir} \
 """
 
