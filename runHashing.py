@@ -5,7 +5,7 @@ import ConfigParser
 import json
 
 config = ConfigParser.ConfigParser()
-config.read("../hashdoop.conf")
+config.read("hashdoop.conf")
 
 # Traces to sketch
 years = json.loads(config.get("Traces","years")) 
@@ -31,16 +31,15 @@ for ye in years:
             outputDir = traceName+"/" 
 
             cmdExp = """hadoop jar {streamingLib} \
+        -files hashing
         -D map.output.key.field.separator=, \
         -D mapred.text.key.partitioner.options=-k1,2 \
         -D mapred.reduce.tasks={nbReducer} \
         -D dfs.blocksize={hadoopBlockSize} \
-        -libjars customMultiOutput.jar \
+        -libjars hashing/customMultiOutput.jar \
         -outputformat com.custom.CustomMultiOutputFormat \
-        -file ./sketch_ipsum_mapper.py  \
-        -mapper "./sketch_ipsum_mapper.py {nbHash} {hashSize}" \
-        -file ./sketch_ipsum_reducer.py \
-        -reducer ./sketch_ipsum_reducer.py \
+        -mapper "hashing/sketch_ipsum_mapper.py {nbHash} {hashSize}" \
+        -reducer hashing/sketch_ipsum_reducer.py \
         -input {tracesHdfsPath}{traceName} \
         -output {sketchesHdfsPath}{outputPath} \
         -partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner"""
