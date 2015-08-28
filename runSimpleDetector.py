@@ -5,7 +5,7 @@ import ConfigParser
 import json
 
 config = ConfigParser.ConfigParser()
-config.read("../hashdoop.conf")
+config.read("hashdoop.conf")
 
 # Traces to sketch
 years = json.loads(config.get("Traces","years")) 
