@@ -7,9 +7,9 @@
 Note: to avoid the burden of installing Hadoop, you can also try hashdoop with
 the [Matatabi docker image](https://hub.docker.com/r/necoma/matatabi/).
 
-### Basic steps:
-
-1.  Format traffic trace to textual format
+### Basic execution:
+The analysis of traffic traces with Hashdoop consists of four main steps:
+1.  Convert traffic trace to textual format
 2.  Configure Hashdoop
 3.  Hash the trace
 4.  Detect anomalies
@@ -36,11 +36,11 @@ hadoop fs -put ~/mawi/200704121400.ipsum /user/hashdoop/data/
 
 ## Running Hashdoop
 ### Configure Hashdoop
-The hashdoop/hashdoop.conf file is set by default for the trace and directories
+The `hashdoop.conf` file is set by default for the trace and directories
 used in this readme. Make sure variables in this file meet your needs.
-- “tracesHdfsPath”: HDFS directory where traffic traces are located 
-- “sketchesHdfsPath”: HDFS directory where hashed traffic will be stored
-- “streamingLib”: jar file of your hadoop streaming
+- `tracesHdfsPath`: HDFS directory where traffic traces are located 
+- `sketchesHdfsPath`: HDFS directory where hashed traffic will be stored
+- `streamingLib`: jar file of your hadoop streaming
 Note that trace names are assumed to be like the ones in the MAWI archive.
 
 ### Traffic hashing
@@ -50,18 +50,21 @@ hash keys (i.e. the source and destination address), so it generated `2*hashSize
 sub-traces.
 
 Execute the (MapReduce) hashing code with the runHashing.py script:
-"""
+```
 python runHashing.py
-"""
+```
 
 ### Anomaly detection 
 #### Simple detector:
 Set the detection threshold and the output path in the configuration file
 (hashdoop.conf), then run:
->> python runSimpleDetector.py
+```
+python runSimpleDetector.py
+```
 
 #### Astute:
 Set the detection threshold, time bin and the output path in the configuration file
 (hashdoop.conf), then run:
->> python runAstute.py
-
+```
+python runAstute.py
+```
