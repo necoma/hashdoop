@@ -10,10 +10,11 @@ the [Matatabi docker image](https://hub.docker.com/r/necoma/matatabi/).
 
 ### Basic execution:
 The analysis of traffic traces with Hashdoop consists of four main steps:
-1.  Convert traffic trace to textual format
-2.  Configure Hashdoop
-3.  Hash the trace
-4.  Detect anomalies
+
+1. Convert traffic trace to textual format
+2. Configure Hashdoop
+3. Hash the trace
+4. Detect anomalies
 
 ## Data formatting
  
